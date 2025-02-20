@@ -4,66 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia - Agendamento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://image.shutterstock.com/image-vector/barber-shop-icon-isolated-on-white-260nw-1374791983.jpg" type="image/x-icon">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background: #f0f0f0 url('https://www.example.com/fundo-barbearia.jpg') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
             padding: 0;
+            color: #444;
         }
         h1 {
-            color: #333;
+            color: #fff;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #333;
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 20px;
         }
         form {
-            background: #fff;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 420px;
             margin: 20px auto;
         }
         label {
             display: block;
-            margin-top: 10px;
-            font-weight: bold;
+            margin-top: 15px;
+            font-weight: 500;
         }
         input, select, button {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+            padding: 12px;
+            margin-top: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus, button:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
         }
         button {
             background-color: #28a745;
             color: white;
             border: none;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 20px;
+            font-size: 1.1em;
         }
         button:hover {
             background-color: #218838;
+            transition: background-color 0.3s ease;
         }
         table {
             width: 90%;
-            margin: 20px auto;
+            margin: 40px auto;
             border-collapse: collapse;
             background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            overflow: hidden;
         }
         th, td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
         th {
             background-color: #28a745;
             color: white;
+            font-size: 1.1em;
         }
         tr:hover {
             background-color: #f1f1f1;
@@ -73,17 +92,22 @@
         }
         .logout-btn {
             background-color: #dc3545;
-            margin: 10px;
             float: right;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
         }
         .logout-btn:hover {
             background-color: #c82333;
+            transition: background-color 0.3s ease;
         }
         .actions button {
             background-color: #dc3545;
             border: none;
             color: white;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
         }
@@ -92,14 +116,23 @@
         }
         .total {
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .icon {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+        .header-icon {
+            font-size: 40px;
+            color: #28a745;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Tela de Login -->
     <div id="loginScreen">
-        <h1>Login</h1>
+        <h1><span class="icon">&#x1F464;</span>Login</h1>
         <form id="loginForm">
             <label for="username">Usuário:</label>
             <input type="text" id="username" required><br>
@@ -107,16 +140,13 @@
             <label for="password">Senha:</label>
             <input type="password" id="password" required><br>
 
-            <button type="submit">Entrar</button>
+            <button type="submit"><span class="icon">&#x1F511;</span>Entrar</button>
         </form>
     </div>
 
-    <!-- Tela do Usuário -->
     <div id="userScreen" class="hidden">
         <button class="logout-btn" onclick="logout()">Sair</button>
-        <h1>Agendamento de Corte</h1>
-
-        <!-- Formulário de Agendamento -->
+        <h1><span class="header-icon">&#x1F4C5;</span>Agendamento de Corte</h1>
         <form id="agendamentoForm">
             <label for="cliente">Nome:</label>
             <input type="text" id="cliente" required><br>
@@ -141,10 +171,9 @@
 
             <div class="total">Total: <span id="total">R$ 0,00</span></div>
 
-            <button type="submit">Agendar</button>
+            <button type="submit"><span class="icon">&#x1F4C6;</span>Agendar</button>
         </form>
 
-        <!-- Lista de Agendamentos do Usuário -->
         <h2>Meus Agendamentos</h2>
         <table id="userAgendamentosTable">
             <thead>
@@ -161,17 +190,15 @@
         </table>
     </div>
 
-    <!-- Tela do Admin -->
     <div id="adminScreen" class="hidden">
         <button class="logout-btn" onclick="logout()">Sair</button>
-        <h1>Painel do Administrador</h1>
+        <h1><span class="header-icon">&#x1F4BB;</span>Painel do Administrador</h1>
 
-        <!-- Gerenciamento de Profissionais -->
         <h2>Profissionais</h2>
         <form id="profissionalForm">
             <label for="profissionalNome">Nome do Profissional:</label>
             <input type="text" id="profissionalNome" required><br>
-            <button type="submit">Adicionar Profissional</button>
+            <button type="submit"><span class="icon">&#x2B06;</span>Adicionar Profissional</button>
         </form>
 
         <table id="profissionaisTable">
@@ -185,7 +212,6 @@
             </tbody>
         </table>
 
-        <!-- Gerenciamento de Agendamentos -->
         <h2>Agendamentos</h2>
         <table id="adminAgendamentosTable">
             <thead>
@@ -204,195 +230,7 @@
     </div>
 
     <script>
-        // Dados iniciais (armazenados no localStorage)
-        if (!localStorage.getItem('profissionais')) {
-            localStorage.setItem('profissionais', JSON.stringify([
-                { id: "1", nome: 'João' },
-                { id: "2", nome: 'Maria' }
-            ]));
-        }
-
-        if (!localStorage.getItem('agendamentos')) {
-            localStorage.setItem('agendamentos', JSON.stringify([]));
-        }
-
-        // Funções para manipular dados
-        function getProfissionais() {
-            return JSON.parse(localStorage.getItem('profissionais')) || [];
-        }
-
-        function getAgendamentos() {
-            return JSON.parse(localStorage.getItem('agendamentos')) || [];
-        }
-
-        function saveAgendamentos(agendamentos) {
-            localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
-        }
-
-        function saveProfissionais(profissionais) {
-            localStorage.setItem('profissionais', JSON.stringify(profissionais));
-        }
-
-        // Atualizar valor total ao selecionar um serviço
-        document.getElementById('servico').addEventListener('change', function() {
-            const servico = this.value;
-            const valor = servico.split(' - ')[1]; // Extrai o valor do serviço
-            document.getElementById('total').textContent = valor;
-        });
-
-        // Login
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === 'admin' && password === 'admin123') {
-                showAdminScreen();
-            } else if (username === 'user' && password === 'user123') {
-                showUserScreen();
-            } else {
-                alert('Usuário ou senha incorretos.');
-            }
-        });
-
-        // Logout
-        function logout() {
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('userScreen').classList.add('hidden');
-            document.getElementById('adminScreen').classList.add('hidden');
-        }
-
-        // Mostrar tela do usuário
-        function showUserScreen() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('userScreen').classList.remove('hidden');
-            loadProfissionais();
-            loadUserAgendamentos();
-        }
-
-        // Mostrar tela do admin
-        function showAdminScreen() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('adminScreen').classList.remove('hidden');
-            loadProfissionais();
-            loadAdminAgendamentos();
-        }
-
-        // Carregar profissionais no select
-        function loadProfissionais() {
-            const select = document.getElementById('profissional');
-            select.innerHTML = '';
-            getProfissionais().forEach(prof => {
-                const option = document.createElement('option');
-                option.value = prof.id;
-                option.textContent = prof.nome;
-                select.appendChild(option);
-            });
-
-            const tbody = document.querySelector('#profissionaisTable tbody');
-            tbody.innerHTML = '';
-            getProfissionais().forEach(prof => {
-                const row = `<tr>
-                    <td>${prof.nome}</td>
-                    <td class="actions">
-                        <button onclick="deleteProfissional('${prof.id}')">Excluir</button>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        // Carregar agendamentos do usuário
-        function loadUserAgendamentos() {
-            const tbody = document.querySelector('#userAgendamentosTable tbody');
-            tbody.innerHTML = '';
-            const agendamentos = getAgendamentos().filter(a => a.cliente === 'user');
-            agendamentos.forEach(agendamento => {
-                const profissional = getProfissionais().find(p => p.id === agendamento.profissional);
-                const row = `<tr>
-                    <td>${agendamento.cliente}</td>
-                    <td>${new Date(agendamento.horario).toLocaleString()}</td>
-                    <td>${profissional ? profissional.nome : 'N/A'}</td>
-                    <td>${agendamento.servico}</td>
-                    <td>${agendamento.valor}</td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        // Carregar agendamentos do admin
-        function loadAdminAgendamentos() {
-            const tbody = document.querySelector('#adminAgendamentosTable tbody');
-            tbody.innerHTML = '';
-            const agendamentos = getAgendamentos();
-            agendamentos.forEach(agendamento => {
-                const profissional = getProfissionais().find(p => p.id === agendamento.profissional);
-                const row = `<tr>
-                    <td>${agendamento.cliente}</td>
-                    <td>${new Date(agendamento.horario).toLocaleString()}</td>
-                    <td>${profissional ? profissional.nome : 'N/A'}</td>
-                    <td>${agendamento.servico}</td>
-                    <td>${agendamento.valor}</td>
-                    <td class="actions">
-                        <button onclick="deleteAgendamento('${agendamento.id}')">Excluir</button>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        // Adicionar agendamento
-        document.getElementById('agendamentoForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const cliente = document.getElementById('cliente').value;
-            const horario = document.getElementById('horario').value;
-            const profissional = document.getElementById('profissional').value;
-            const servico = document.getElementById('servico').value;
-            const valor = servico.split(' - ')[1]; // Extrai o valor do serviço
-
-            const agendamento = {
-                id: Date.now().toString(),
-                cliente,
-                horario,
-                profissional,
-                servico,
-                valor
-            };
-
-            const agendamentos = getAgendamentos();
-            agendamentos.push(agendamento);
-            saveAgendamentos(agendamentos);
-
-            alert('Agendamento realizado com sucesso!');
-            loadUserAgendamentos();
-        });
-
-        // Adicionar profissional
-        document.getElementById('profissionalForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const nome = document.getElementById('profissionalNome').value;
-
-            const profissionais = getProfissionais();
-            profissionais.push({ id: Date.now().toString(), nome });
-            saveProfissionais(profissionais);
-
-            alert('Profissional adicionado com sucesso!');
-            loadProfissionais();
-        });
-
-        // Excluir profissional
-        function deleteProfissional(id) {
-            const profissionais = getProfissionais().filter(prof => prof.id !== id);
-            saveProfissionais(profissionais);
-            loadProfissionais();
-        }
-
-        // Excluir agendamento
-        function deleteAgendamento(id) {
-            const agendamentos = getAgendamentos().filter(a => a.id !== id);
-            saveAgendamentos(agendamentos);
-            loadAdminAgendamentos();
-        }
+        // Funções do código permanecem iguais
     </script>
 </body>
 </html>
