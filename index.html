@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -108,7 +109,6 @@
             <input type="password" id="password" required><br>
 
             <button type="submit">Entrar</button>
-            <div id="loginError" style="color: red; display: none;">Usuário ou senha incorretos.</div>
         </form>
     </div>
 
@@ -247,15 +247,12 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Login do administrador
             if (username === 'admin' && password === 'admin123') {
                 showAdminScreen();
-            }
-            // Login do usuário
-            else if (username === 'user' && password === 'user123') {
+            } else if (username === 'user' && password === 'user123') {
                 showUserScreen();
             } else {
-                document.getElementById('loginError').style.display = 'block';
+                alert('Usuário ou senha incorretos.');
             }
         });
 
@@ -264,7 +261,6 @@
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('userScreen').classList.add('hidden');
             document.getElementById('adminScreen').classList.add('hidden');
-            document.getElementById('loginError').style.display = 'none';
         }
 
         // Mostrar tela do usuário
