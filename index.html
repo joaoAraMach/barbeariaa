@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia - Agendamento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" required><br>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" required><br>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <!-- Tela do Usuário -->
+    <div id="userScreen" class="hidden">
+        <button class="logout-btn" onclick="logout()">Sair</button>
+        <h1>Agendamento de Corte</h1>
+
+        <!-- Formulário de Agendamento -->
+        <form id="agendamentoForm">
+            <label for="cliente">Nome:</label>
+            <input type="text" id="cliente" required><br>
+
+            <label for="horario">Horário:</label>
+            <input type="datetime-local" id="horario" step="1800" required><br>
+
+            <label for="profissional">Profissional:</label>
+            <select id="profissional" required></select><br>
+
+            <label for="servico">Serviço:</label>
+            <select id="servico" required>
+                <option value="" disabled selected>Selecione um serviço</option>
+                <option value="Corte de Cabelo - R$ 30,00">Corte de Cabelo - R$ 30,00</option>
+                <option value="Corte + Barba - R$ 50,00">Corte + Barba - R$ 50,00</option>
+                <option value="Corte + Alisamento - R$ 80,00">Corte + Alisamento - R$ 80,00</option>
+                <option value="Barba - R$ 20,00">Barba - R$ 20,00</option>
+                <option value="Pintura de Cabelo - R$ 60,00">Pintura de Cabelo - R$ 60,00</option>
+                <option value="Corte + Sobrancelha - R$ 40,00">Corte + Sobrancelha - R$ 40,00</option>
+                <option value="Corte Completo (Cabelo + Barba + Sobrancelha) - R$ 70,00">Corte Completo (Cabelo + Barba + Sobrancelha) - R$ 70,00</option>
+            </select><br>
+
+            <div class="total">Total: <span id="total">R$ 0,00</span></div>
+
+            <button type="submit">Agendar</button>
+        </form>
+
+        <!-- Lista de Agendamentos do Usuário -->
+        <h2>Meus Agendamentos</h2>
+        <table id="userAgendamentosTable">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Horário</th>
+                    <th>Profissional</th>
+                    <th>Serviço</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tela do Admin -->
+    <div id="adminScreen" class="hidden">
+        <button class="logout-btn" onclick="logout()">Sair</button>
+        <h1>Painel do Administrador</h1>
+
+        <!-- Gerenciamento de Profissionais -->
+        <h2>Profissionais</h2>
+        <form id="profissionalForm">
+            <label for="profissionalNome">Nome do Profissional:</label>
+            <input type="text" id="profissionalNome" required><br>
+            <button type="submit">Adicionar Profissional</button>
+        </form>
+
+        <table id="profissionaisTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <!-- Gerenciamento de Agendamentos -->
+        <h2>Agendamentos</h2>
+        <table id="adminAgendamentosTable">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Horário</th>
+                    <th>Profissional</th>
+                    <th>Serviço</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
