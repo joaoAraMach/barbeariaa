@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,17 +7,21 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-image: url('https://images.unsplash.com/photo-1599351431405-41e8b8f79698?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
             margin: 0;
             padding: 0;
+            color: #333;
         }
         h1 {
-            color: #333;
+            color: #fff;
             text-align: center;
             margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         form {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -39,20 +42,20 @@
             font-size: 16px;
         }
         button {
-            background-color: #28a745;
+            background-color: #8B4513; /* Marrom */
             color: white;
             border: none;
             cursor: pointer;
             margin-top: 15px;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #A0522D; /* Marrom mais claro */
         }
         table {
             width: 90%;
             margin: 20px auto;
             border-collapse: collapse;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
@@ -63,7 +66,7 @@
             border-bottom: 1px solid #ddd;
         }
         th {
-            background-color: #28a745;
+            background-color: #8B4513; /* Marrom */
             color: white;
         }
         tr:hover {
@@ -95,6 +98,18 @@
             font-weight: bold;
             margin-top: 10px;
         }
+        .register-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .register-link a {
+            color: #8B4513;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -109,6 +124,26 @@
             <input type="password" id="password" required><br>
 
             <button type="submit">Entrar</button>
+            <div class="register-link">
+                <a href="#" onclick="showRegisterScreen()">Criar uma conta</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tela de Cadastro -->
+    <div id="registerScreen" class="hidden">
+        <h1>Cadastro</h1>
+        <form id="registerForm">
+            <label for="newUsername">Usuário:</label>
+            <input type="text" id="newUsername" required><br>
+
+            <label for="newPassword">Senha:</label>
+            <input type="password" id="newPassword" required><br>
+
+            <button type="submit">Cadastrar</button>
+            <div class="register-link">
+                <a href="#" onclick="showLoginScreen()">Voltar para o Login</a>
+            </div>
         </form>
     </div>
 
@@ -217,6 +252,13 @@
             localStorage.setItem('agendamentos', JSON.stringify([]));
         }
 
+        if (!localStorage.getItem('usuarios')) {
+            localStorage.setItem('usuarios', JSON.stringify([
+                { username: 'admin', password: 'admin123' },
+                { username: 'user', password: 'user123' }
+            ]));
+        }
+
         // Funções para manipular dados
         function getProfissionais() {
             return JSON.parse(localStorage.getItem('profissionais')) || [];
@@ -226,12 +268,20 @@
             return JSON.parse(localStorage.getItem('agendamentos')) || [];
         }
 
+        function getUsuarios() {
+            return JSON.parse(localStorage.getItem('usuarios')) || [];
+        }
+
         function saveAgendamentos(agendamentos) {
             localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
         }
 
         function saveProfissionais(profissionais) {
             localStorage.setItem('profissionais', JSON.stringify(profissionais));
+        }
+
+        function saveUsuarios(usuarios) {
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
         }
 
         // Atualizar valor total ao selecionar um serviço
@@ -247,18 +297,58 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (username === 'admin' && password === 'admin123') {
-                showAdminScreen();
-            } else if (username === 'user' && password === 'user123') {
-                showUserScreen();
+            const usuarios = getUsuarios();
+            const usuario = usuarios.find(u => u.username === username && u.password === password);
+
+            if (usuario) {
+                if (username === 'admin' && password === 'admin123') {
+                    showAdminScreen();
+                } else {
+                    showUserScreen();
+                }
             } else {
                 alert('Usuário ou senha incorretos.');
             }
         });
 
+        // Cadastro de usuário
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+
+            const usuarios = getUsuarios();
+            if (usuarios.find(u => u.username === username)) {
+                alert('Usuário já existe.');
+                return;
+            }
+
+            usuarios.push({ username, password });
+            saveUsuarios(usuarios);
+            alert('Usuário cadastrado com sucesso!');
+            showLoginScreen();
+        });
+
         // Logout
         function logout() {
             document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('userScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+        }
+
+        // Mostrar tela de login
+        function showLoginScreen() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById('userScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.add('hidden');
+        }
+
+        // Mostrar tela de cadastro
+        function showRegisterScreen() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.remove('hidden');
             document.getElementById('userScreen').classList.add('hidden');
             document.getElementById('adminScreen').classList.add('hidden');
         }
@@ -267,6 +357,7 @@
         function showUserScreen() {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('userScreen').classList.remove('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
             loadProfissionais();
             loadUserAgendamentos();
         }
@@ -275,6 +366,7 @@
         function showAdminScreen() {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('adminScreen').classList.remove('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
             loadProfissionais();
             loadAdminAgendamentos();
         }
@@ -396,4 +488,4 @@
         }
     </script>
 </body>
-</html>
+</html
