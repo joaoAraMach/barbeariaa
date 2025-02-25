@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia - Agendamento</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -109,6 +110,17 @@
         }
         .register-link a:hover {
             text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            form {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            table {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -486,6 +498,13 @@
             saveAgendamentos(agendamentos);
             loadAdminAgendamentos();
         }
+
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker registrado com sucesso.'))
+                .catch(err => console.log('Erro ao registrar Service Worker:', err));
+        }
     </script>
 </body>
-</html
+</html>
